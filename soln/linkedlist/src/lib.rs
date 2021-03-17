@@ -6,31 +6,52 @@ impl<T> LinkedList<T> {
         unimplemented!()
     }
 
+    /// Returns the number of elements in the list.
+    /// This function runs in `O(1)` time.
     pub fn size(&self) -> usize {
         unimplemented!()
     }
 
+    /// Add `value` to the start of the list.
+    /// This function runs in `O(1)` time.
     pub fn push_front(&mut self, value: T) {
         unimplemented!()
     }
 
+    /// Add `value` to the end of the list.
+    /// This function runs in `O(1)` time.
     pub fn push_back(&mut self, value: T) {
         unimplemented!()
     }
 
+    /// Returns a reference to the first value of the list.
+    /// This function runs in `O(1)` time.
     pub fn peek_front(&self) -> Option<&T> {
         unimplemented!()
     }
 
+    /// Returns a reference to the last value of the list.
+    /// This function runs in `O(1)` time.
     pub fn peek_back(&self) -> Option<&T> {
         unimplemented!()
     }
 
-    pub fn pop_front(&self) -> Option<T>{
+    /// Removes the first element from the list and return it
+    /// This function runs in `O(1)` time.
+    pub fn pop_front(&self) -> Option<T> {
         unimplemented!()
     }
 
-    pub fn pop_back(&self) -> Option<T>{
+    /// Removes the last element from the list and return it
+    /// This function runs in `O(1)` time.
+    pub fn pop_back(&self) -> Option<T> {
+        unimplemented!()
+    }
+
+    /// Finds if a value is present in the list.
+    /// If the value is not found, return None
+    /// If the value is found, return a mutable reference to the value.
+    pub fn find(&mut self, value: &T) -> Option<&mut T> {
         unimplemented!()
     }
 }
