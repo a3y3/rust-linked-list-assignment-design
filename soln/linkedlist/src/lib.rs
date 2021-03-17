@@ -2,7 +2,7 @@ pub struct LinkedList<T> {
     _bogus: T,
 }
 impl<T> LinkedList<T> {
-    pub fn new(value: T) -> LinkedList<T> {
+    pub fn new() -> LinkedList<T> {
         unimplemented!()
     }
 
@@ -18,11 +18,19 @@ impl<T> LinkedList<T> {
         unimplemented!()
     }
 
-    pub fn peek_front(&self) -> &T {
+    pub fn peek_front(&self) -> Option<&T> {
         unimplemented!()
     }
 
-    pub fn peek_back(&self) -> &T {
+    pub fn peek_back(&self) -> Option<&T> {
+        unimplemented!()
+    }
+
+    pub fn pop_front(&self) -> Option<T>{
+        unimplemented!()
+    }
+
+    pub fn pop_back(&self) -> Option<T>{
         unimplemented!()
     }
 }
