@@ -10,6 +10,10 @@ impl<T> LinkedList<T> {
         unimplemented!()
     }
 
+    pub fn push_front(&mut self, value: T) {
+        unimplemented!()
+    }
+
     pub fn push_back(&mut self, value: T) {
         unimplemented!()
     }
@@ -17,12 +21,10 @@ impl<T> LinkedList<T> {
     pub fn peek_front(&self) -> &T {
         unimplemented!()
     }
-    
+
     pub fn peek_back(&self) -> &T {
         unimplemented!()
     }
-
-    pub fn iter() {}
 }
 
 mod tests;
