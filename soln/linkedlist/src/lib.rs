@@ -38,13 +38,13 @@ impl<T> LinkedList<T> {
 
     /// Removes the first element from the list and return it
     /// This function runs in `O(1)` time.
-    pub fn pop_front(&self) -> Option<T> {
+    pub fn pop_front(&mut self) -> Option<T> {
         unimplemented!()
     }
 
     /// Removes the last element from the list and return it
     /// This function runs in `O(1)` time.
-    pub fn pop_back(&self) -> Option<T> {
+    pub fn pop_back(&mut self) -> Option<T> {
         unimplemented!()
     }
 
@@ -52,6 +52,12 @@ impl<T> LinkedList<T> {
     /// If the value is not found, return None
     /// If the value is found, return a mutable reference to the value.
     pub fn find(&mut self, value: &T) -> Option<&mut T> {
+        unimplemented!()
+    }
+
+    /// Removes the value from the linkedlist.
+    /// If the value was present, return that value, else return None.
+    pub fn remove(&mut self, value: &T) -> Option<T>{
         unimplemented!()
     }
 }

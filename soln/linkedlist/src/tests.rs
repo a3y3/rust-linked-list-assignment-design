@@ -21,8 +21,10 @@ mod tests {
         IncorrectValueAtEnd,
         IncorrectValueAtStart,
         ValueOrderMismatch,
-        IncorrectFindOutput
+        IncorrectFindOutput,
+        IncorrectRemoveOutput,
     }
+
     fn human_readable_err(err: Error) -> &'static str {
         match err {
             Error::SizeMismatch => "Incorrect size of list",
@@ -30,7 +32,8 @@ mod tests {
             Error::IncorrectValueAtStart => "Incorrect value peeked from start of list",
             Error::ValueOrderMismatch => 
             "Incorrect value found while popping from start. Perhaps the order in which the list is created is incorrect?",
-            Error::IncorrectFindOutput => "Incorrect value found while using find()"
+            Error::IncorrectFindOutput => "Incorrect value found while using find()",
+            Error::IncorrectRemoveOutput => "Incorrect value returned from remove()"
         }
     }
 
@@ -178,6 +181,30 @@ mod tests {
             linked_list.push_back(holder.clone());
             let found_value = linked_list.find(&holder);
             assert_eq!(*found_value.unwrap(), holder, "{}", human_readable_err(Error::IncorrectFindOutput));
+        }
+    }
+
+    // remove
+    #[test]
+    fn test_remove(){
+        let mut linked_list = LinkedList::new();
+        let mut correct_size = 0;
+        let removed = linked_list.remove(&Holder{value: "Some value"});
+        assert_eq!(None, removed, "{}", human_readable_err(Error::IncorrectRemoveOutput));
+        assert_eq!(correct_size, linked_list.size(), "{}", human_readable_err(Error::SizeMismatch));
+
+        for value in &VALUES {
+            let holder = Holder { value: *value };
+            linked_list.push_front(holder);
+            correct_size += 1;
+        }
+
+        for value in &VALUES {
+            let holder = Holder { value: *value };
+            let removed = linked_list.remove(&holder);
+            correct_size -= 1;
+            assert_eq!(removed, holder, "{}", human_readable_err(Error::IncorrectRemoveOutput));
+            assert_eq!(correct_size, linked_list.size(), "{}", human_readable_err(Error::SizeMismatch));
         }
     }
 }
