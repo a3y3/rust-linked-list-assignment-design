@@ -203,7 +203,7 @@ mod tests {
             let holder = Holder { value: *value };
             let removed = linked_list.remove(&holder);
             correct_size -= 1;
-            assert_eq!(removed, holder, "{}", human_readable_err(Error::IncorrectRemoveOutput));
+            assert_eq!(removed.unwrap(), holder, "{}", human_readable_err(Error::IncorrectRemoveOutput));
             assert_eq!(correct_size, linked_list.size(), "{}", human_readable_err(Error::SizeMismatch));
         }
     }
