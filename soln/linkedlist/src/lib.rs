@@ -38,13 +38,10 @@ impl<T> LinkedList<T> {
     /// This function runs in `O(1)` time.
     pub fn push_front(&mut self, value: T) {
         let mut node = Node::new(value);
-        match std::mem::replace(&mut self.head, None)  {
-            None => self.head = Some(Box::new(node)),
-            Some(x) => {
-                node.next = Some(x);
-                self.head = Some(Box::new(node));
-            }
-        }
+        self.head.take().map(|x|{
+            node.next = Some(x);
+        });
+        self.head = Some(Box::new(node));
         self.size += 1;
     }
 
@@ -57,10 +54,10 @@ impl<T> LinkedList<T> {
     /// Returns a reference to the first value of the list.
     /// This function runs in `O(1)` time.
     pub fn peek_front(&self) -> Option<&T> {
-        match &self.head{
+        match &self.head {
             None => None,
             Some(x) => {
-                let node = &**x;
+                let node: &Node<T> = &**x;
                 Some(&node.val)
             }
         }
