@@ -1,21 +1,51 @@
-pub struct LinkedList<T> {
-    _bogus: T,
+struct Node<T> {
+    val: T,
+    next: Option<Box<Node<T>>>,
+    prev: Option<Box<Node<T>>>,
 }
+
+impl<T> Node<T> {
+    fn new(val: T) -> Node<T> {
+        Node {
+            val,
+            next: None,
+            prev: None,
+        }
+    }
+}
+
+pub struct LinkedList<T> {
+    head: Option<Box<Node<T>>>,
+    tail: Option<Box<Node<T>>>,
+    size: usize,
+}
+
 impl<T> LinkedList<T> {
     pub fn new() -> LinkedList<T> {
-        unimplemented!()
+        let head = None;
+        let tail = None;
+        let size = 0;
+        LinkedList { head, tail, size }
     }
 
     /// Returns the number of elements in the list.
     /// This function runs in `O(1)` time.
     pub fn size(&self) -> usize {
-        unimplemented!()
+        self.size
     }
 
     /// Add `value` to the start of the list.
     /// This function runs in `O(1)` time.
     pub fn push_front(&mut self, value: T) {
-        unimplemented!()
+        let mut node = Node::new(value);
+        match std::mem::replace(&mut self.head, None)  {
+            None => self.head = Some(Box::new(node)),
+            Some(x) => {
+                node.next = Some(x);
+                self.head = Some(Box::new(node));
+            }
+        }
+        self.size += 1;
     }
 
     /// Add `value` to the end of the list.
@@ -27,7 +57,13 @@ impl<T> LinkedList<T> {
     /// Returns a reference to the first value of the list.
     /// This function runs in `O(1)` time.
     pub fn peek_front(&self) -> Option<&T> {
-        unimplemented!()
+        match &self.head{
+            None => None,
+            Some(x) => {
+                let node = &**x;
+                Some(&node.val)
+            }
+        }
     }
 
     /// Returns a reference to the last value of the list.
@@ -57,7 +93,7 @@ impl<T> LinkedList<T> {
 
     /// Removes the value from the linkedlist.
     /// If the value was present, return that value, else return None.
-    pub fn remove(&mut self, value: &T) -> Option<T>{
+    pub fn remove(&mut self, value: &T) -> Option<T> {
         unimplemented!()
     }
 }
