@@ -72,14 +72,11 @@ impl<T> LinkedList<T> {
     /// Removes the first element from the list and return it
     /// This function runs in `O(1)` time.
     pub fn pop_front(&mut self) -> Option<T> {
-        match self.head.take() {
-            None => None,
-            Some(old_head) => {
-                self.head = (*old_head).next;
-                self.size -= 1;
-                Some((*old_head).val)
-            }
-        }
+        self.head.take().map(|old_head| {
+            self.head = (*old_head).next;
+            self.size -= 1;
+            (*old_head).val
+        })
     }
 
     /// Removes the last element from the list and return it
