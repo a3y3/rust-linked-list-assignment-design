@@ -38,7 +38,7 @@ impl<T> LinkedList<T> {
     /// This function runs in `O(1)` time.
     pub fn push_front(&mut self, value: T) {
         let mut node = Node::new(value);
-        self.head.take().map(|x|{
+        self.head.take().map(|x| {
             node.next = Some(x);
         });
         self.head = Some(Box::new(node));
@@ -72,7 +72,14 @@ impl<T> LinkedList<T> {
     /// Removes the first element from the list and return it
     /// This function runs in `O(1)` time.
     pub fn pop_front(&mut self) -> Option<T> {
-        unimplemented!()
+        match self.head.take() {
+            None => None,
+            Some(old_head) => {
+                self.head = (*old_head).next;
+                self.size -= 1;
+                Some((*old_head).val)
+            }
+        }
     }
 
     /// Removes the last element from the list and return it
