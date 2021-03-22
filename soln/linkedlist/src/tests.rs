@@ -72,10 +72,7 @@ mod tests {
             correct_size,
             linked_list.size(),
             "{}", human_readable_err(Error::SizeMismatch));
-        let last_val = linked_list.peek_back();
-        assert_eq!(
-            None, last_val,
-            "{} ", human_readable_err(Error::IncorrectValueAtEnd));
+        assert!(linked_list.peek_front().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
 
         for value in &VALUES {
             let holder = Holder { value: *value };
@@ -149,7 +146,6 @@ mod tests {
             linked_list.push_front(holder);
             correct_size += 1;
         }
-        let mut i = 0;
         while linked_list.size() != 0 {
             let first_val = linked_list.pop_front();
             correct_size -= 1;
@@ -159,10 +155,9 @@ mod tests {
                 "{}", human_readable_err(Error::SizeMismatch)
             );
             assert_eq!(
-                VALUES[i], first_val.unwrap().value,
+                VALUES[correct_size], first_val.unwrap().value,
                 "{} ", human_readable_err(Error::ValueOrderMismatch)
             );
-            i += 1;
         }
     }
 
