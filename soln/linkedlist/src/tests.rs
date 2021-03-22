@@ -23,6 +23,7 @@ mod tests {
         ValueOrderMismatch,
         IncorrectFindOutput,
         IncorrectRemoveOutput,
+        FindSizeMismatch
     }
 
     fn human_readable_err(err: Error) -> &'static str {
@@ -33,7 +34,8 @@ mod tests {
             Error::ValueOrderMismatch => 
             "Incorrect value found while popping from start. Perhaps the order in which the list is created is incorrect?",
             Error::IncorrectFindOutput => "Incorrect value found while using find()",
-            Error::IncorrectRemoveOutput => "Incorrect value returned from remove()"
+            Error::IncorrectRemoveOutput => "Incorrect value returned from remove()",
+            Error::FindSizeMismatch => "Find modifies length of list"
         }
     }
 
@@ -166,13 +168,16 @@ mod tests {
     fn test_find(){
         let mut linked_list = LinkedList::new();
         let found_value = linked_list.find(&Holder{value: "Some value"});
-        assert_eq!(None, found_value, "{}", human_readable_err(Error::IncorrectFindOutput));
+        assert_eq!(false, found_value, "{}", human_readable_err(Error::IncorrectFindOutput));
+        let mut correct_size = 0;
 
         for value in &VALUES {
             let holder = Holder { value: *value };
             linked_list.push_back(holder.clone());
+            correct_size += 1;
+            assert_eq!(correct_size, linked_list.size(), "{}", human_readable_err(Error::FindSizeMismatch));
             let found_value = linked_list.find(&holder);
-            assert_eq!(*found_value.unwrap(), holder, "{}", human_readable_err(Error::IncorrectFindOutput));
+            assert_eq!(true, found_value, "{}", human_readable_err(Error::IncorrectFindOutput));
         }
     }
 
