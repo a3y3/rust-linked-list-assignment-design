@@ -60,7 +60,19 @@ impl<T> LinkedList<T> {
     /// Add `value` to the end of the list.
     /// This function runs in `O(1)` time.
     pub fn push_back(&mut self, value: T) {
-        unimplemented!()
+        let node: Rc<RefCell<Node<T>>> = Node::new(value);
+        match self.tail.take(){
+            None =>{
+                self.head = Some(Rc::clone(&node));
+                self.tail = Some(node);
+            }
+            Some(old_tail) => {
+                old_tail.borrow_mut().next = Some(Rc::clone(&node));
+                node.borrow_mut().prev = Some(Rc::clone(&old_tail));
+                self.tail = Some(node);
+            }
+        }
+        self.size += 1;
     }
 
     /// Returns a reference to the first value of the list.
@@ -71,8 +83,8 @@ impl<T> LinkedList<T> {
 
     /// Returns a reference to the last value of the list.
     /// This function runs in `O(1)` time.
-    pub fn peek_back(&self) -> Option<&T> {
-        unimplemented!()
+    pub fn peek_back(&self) -> Option<Ref<T>> {
+        self.tail.as_ref().map(|old_tail| Ref::map(old_tail.borrow(), |v| &v.val))
     }
 
     /// Removes the first element from the list and return it
@@ -94,7 +106,19 @@ impl<T> LinkedList<T> {
     /// Removes the last element from the list and return it
     /// This function runs in `O(1)` time.
     pub fn pop_back(&mut self) -> Option<T> {
-        unimplemented!()
+        self.tail.take().map(|old_tail|{
+            match old_tail.borrow_mut().prev.take(){
+                None =>{
+                    self.head = None
+                },
+                Some(v) =>{
+                    v.borrow_mut().next = None;
+                    self.tail = Some(v);
+                }
+            };
+            self.size -= 1;
+            Rc::try_unwrap(old_tail).ok().unwrap().into_inner().val
+        })
     }
 
     /// Finds if a value is present in the list.
