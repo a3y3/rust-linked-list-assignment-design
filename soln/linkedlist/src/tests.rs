@@ -46,11 +46,8 @@ mod tests {
             correct_size,
             linked_list.size(),
             "{}", human_readable_err(Error::SizeMismatch));
-        let first_val = linked_list.peek_front();
-        assert_eq!(
-            None, first_val,
-            "{}", human_readable_err(Error::IncorrectValueAtStart));
-
+        assert!(linked_list.peek_front().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
+        
         for value in &VALUES {
             let holder = Holder { value: *value };
             linked_list.push_front(holder);

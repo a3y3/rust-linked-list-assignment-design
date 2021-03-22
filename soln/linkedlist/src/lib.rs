@@ -1,22 +1,26 @@
+use std::cell::Ref;
+use std::cell::RefCell;
+use std::rc::Rc;
+
 struct Node<T> {
     val: T,
-    next: Option<Box<Node<T>>>,
-    prev: Option<Box<Node<T>>>,
+    next: Option<Rc<RefCell<Node<T>>>>,
+    prev: Option<Rc<RefCell<Node<T>>>>,
 }
 
 impl<T> Node<T> {
-    fn new(val: T) -> Node<T> {
-        Node {
+    fn new(val: T) -> Rc<RefCell<Self>> {
+        Rc::new(RefCell::new(Node {
             val,
             next: None,
             prev: None,
-        }
+        }))
     }
 }
 
 pub struct LinkedList<T> {
-    head: Option<Box<Node<T>>>,
-    tail: Option<Box<Node<T>>>,
+    head: Option<Rc<RefCell<Node<T>>>>,
+    tail: Option<Rc<RefCell<Node<T>>>>,
     size: usize,
 }
 
@@ -37,11 +41,19 @@ impl<T> LinkedList<T> {
     /// Add `value` to the start of the list.
     /// This function runs in `O(1)` time.
     pub fn push_front(&mut self, value: T) {
-        let mut node = Node::new(value);
-        self.head.take().map(|x| {
-            node.next = Some(x);
-        });
-        self.head = Some(Box::new(node));
+        let node: Rc<RefCell<Node<T>>> = Node::new(value);
+        match self.head.take() {
+            None => {
+                self.head = Some(Rc::clone(&node));
+                self.tail = Some(node);
+            }
+            Some(old_head) => {
+                old_head.borrow_mut().prev = Some(Rc::clone(&node));
+                node.borrow_mut().next = Some(Rc::clone(&old_head));
+                self.head = Some(node);
+            }
+        }
+
         self.size += 1;
     }
 
@@ -53,14 +65,8 @@ impl<T> LinkedList<T> {
 
     /// Returns a reference to the first value of the list.
     /// This function runs in `O(1)` time.
-    pub fn peek_front(&self) -> Option<&T> {
-        match &self.head {
-            None => None,
-            Some(x) => {
-                let node: &Node<T> = &**x;
-                Some(&node.val)
-            }
-        }
+    pub fn peek_front(&self) -> Option<Ref<T>> {
+        self.head.as_ref().map(|old_head| Ref::map(old_head.borrow(), |v| &v.val))
     }
 
     /// Returns a reference to the last value of the list.
@@ -73,9 +79,15 @@ impl<T> LinkedList<T> {
     /// This function runs in `O(1)` time.
     pub fn pop_front(&mut self) -> Option<T> {
         self.head.take().map(|old_head| {
-            self.head = (*old_head).next;
+            match old_head.borrow_mut().next.take() {
+                None => self.tail = None,
+                Some(v) => {
+                    v.borrow_mut().prev = None;
+                    self.head = Some(v);
+                }
+            };
             self.size -= 1;
-            (*old_head).val
+            Rc::try_unwrap(old_head).ok().unwrap().into_inner().val
         })
     }
 
@@ -96,6 +108,12 @@ impl<T> LinkedList<T> {
     /// If the value was present, return that value, else return None.
     pub fn remove(&mut self, value: &T) -> Option<T> {
         unimplemented!()
+    }
+}
+
+impl<T> Drop for LinkedList<T> {
+    fn drop(&mut self) {
+        while self.pop_front().is_some() {}
     }
 }
 
