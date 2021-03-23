@@ -23,6 +23,7 @@ mod tests {
         ValueOrderMismatch,
         IncorrectFindOutput,
         IncorrectRemoveOutput,
+        FindSizeMismatch
     }
 
     fn human_readable_err(err: Error) -> &'static str {
@@ -33,7 +34,8 @@ mod tests {
             Error::ValueOrderMismatch => 
             "Incorrect value found while popping from start. Perhaps the order in which the list is created is incorrect?",
             Error::IncorrectFindOutput => "Incorrect value found while using find()",
-            Error::IncorrectRemoveOutput => "Incorrect value returned from remove()"
+            Error::IncorrectRemoveOutput => "Incorrect value returned from remove()",
+            Error::FindSizeMismatch => "Find modifies length of list"
         }
     }
 
@@ -46,11 +48,8 @@ mod tests {
             correct_size,
             linked_list.size(),
             "{}", human_readable_err(Error::SizeMismatch));
-        let first_val = linked_list.peek_front();
-        assert_eq!(
-            None, first_val,
-            "{}", human_readable_err(Error::IncorrectValueAtStart));
-
+        assert!(linked_list.peek_front().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
+        
         for value in &VALUES {
             let holder = Holder { value: *value };
             linked_list.push_front(holder);
@@ -75,10 +74,7 @@ mod tests {
             correct_size,
             linked_list.size(),
             "{}", human_readable_err(Error::SizeMismatch));
-        let last_val = linked_list.peek_back();
-        assert_eq!(
-            None, last_val,
-            "{} ", human_readable_err(Error::IncorrectValueAtEnd));
+        assert!(linked_list.peek_front().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
 
         for value in &VALUES {
             let holder = Holder { value: *value };
@@ -152,7 +148,6 @@ mod tests {
             linked_list.push_front(holder);
             correct_size += 1;
         }
-        let mut i = 0;
         while linked_list.size() != 0 {
             let first_val = linked_list.pop_front();
             correct_size -= 1;
@@ -162,10 +157,9 @@ mod tests {
                 "{}", human_readable_err(Error::SizeMismatch)
             );
             assert_eq!(
-                VALUES[i], first_val.unwrap().value,
+                VALUES[correct_size], first_val.unwrap().value,
                 "{} ", human_readable_err(Error::ValueOrderMismatch)
             );
-            i += 1;
         }
     }
 
@@ -174,13 +168,16 @@ mod tests {
     fn test_find(){
         let mut linked_list = LinkedList::new();
         let found_value = linked_list.find(&Holder{value: "Some value"});
-        assert_eq!(None, found_value, "{}", human_readable_err(Error::IncorrectFindOutput));
+        assert_eq!(false, found_value, "{}", human_readable_err(Error::IncorrectFindOutput));
+        let mut correct_size = 0;
 
         for value in &VALUES {
             let holder = Holder { value: *value };
             linked_list.push_back(holder.clone());
+            correct_size += 1;
+            assert_eq!(correct_size, linked_list.size(), "{}", human_readable_err(Error::FindSizeMismatch));
             let found_value = linked_list.find(&holder);
-            assert_eq!(*found_value.unwrap(), holder, "{}", human_readable_err(Error::IncorrectFindOutput));
+            assert_eq!(true, found_value, "{}", human_readable_err(Error::IncorrectFindOutput));
         }
     }
 
