@@ -1,6 +1,6 @@
-# rust-hash-map
+# Linked-List
 
-This assignment will test your Rust knowledge by requiring you to build a [HashMap](https://en.wikipedia.org/wiki/Hash_table) from scratch.
+This assignment will test your Rust knowledge by requiring you to build a [LinkedList](https://en.wikipedia.org/wiki/Linked_list) from scratch.
 
 Author(s):
 
