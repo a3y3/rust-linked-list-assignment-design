@@ -39,6 +39,23 @@ mod tests {
         }
     }
 
+    //test_size
+    #[test]
+    fn test_size() {
+        let mut linked_list = LinkedList::new();
+        let mut correct_size = 0;
+        
+        for value in &VALUES {
+            let holder = Holder { value: *value };
+            linked_list.push_front(holder);
+            correct_size += 1;
+            assert_eq!(
+                correct_size,
+                linked_list.size(),
+                "{}", human_readable_err(Error::SizeMismatch));
+        }
+    }
+
     //push_front
     #[test]
     fn test_push_front() {
@@ -62,6 +79,43 @@ mod tests {
             assert_eq!(
                 *value, first_val.unwrap().value,
                 "{} ", human_readable_err(Error::IncorrectValueAtStart));
+        }
+    }
+    
+    //peek_back
+    #[test]
+    fn test_peek_back() {
+        let mut linked_list = LinkedList::new();
+        let mut correct_size = 0;
+        assert_eq!(
+            correct_size,
+            linked_list.size(),
+            "{}", human_readable_err(Error::SizeMismatch));
+        assert!(linked_list.peek_front().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
+        
+        for value in &VALUES {
+            let holder = Holder { value: *value };
+            linked_list.push_front(holder);
+            correct_size += 1;
+            assert_eq!(
+                correct_size,
+                linked_list.size(),
+                "{}", human_readable_err(Error::SizeMismatch));
+        }
+        let array_length= correct_size;
+        while linked_list.size() != 0 {
+            let first_val = linked_list.peek_back();
+            assert_eq!(
+                correct_size,
+                linked_list.size(),
+                "{}", human_readable_err(Error::SizeMismatch)
+            );
+            assert_eq!(
+                VALUES[array_length-correct_size], first_val.unwrap().value,
+                "{} ", human_readable_err(Error::ValueOrderMismatch)
+            );
+            linked_list.pop_back();
+            correct_size -= 1;
         }
     }
 
@@ -91,6 +145,41 @@ mod tests {
         }
     }
 
+    //peek_front
+    #[test]
+    fn test_peek_front() {
+        let mut linked_list = LinkedList::new();
+        let mut correct_size = 0;
+        assert_eq!(
+            correct_size,
+            linked_list.size(),
+            "{}", human_readable_err(Error::SizeMismatch));
+        assert!(linked_list.peek_front().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
+        
+        for value in &VALUES {
+            let holder = Holder { value: *value };
+            linked_list.push_front(holder);
+            correct_size += 1;
+            assert_eq!(
+                correct_size,
+                linked_list.size(),
+                "{}", human_readable_err(Error::SizeMismatch));
+        }
+        while linked_list.size() != 0 {
+            let first_val = linked_list.peek_front();
+            assert_eq!(
+                correct_size,
+                linked_list.size(),
+                "{}", human_readable_err(Error::SizeMismatch)
+            );
+            assert_eq!(
+                VALUES[correct_size-1], first_val.unwrap().value,
+                "{} ", human_readable_err(Error::ValueOrderMismatch)
+            );
+            linked_list.pop_front();
+            correct_size -= 1;
+        }
+    }
     //pop_front
     #[test]
     fn test_pop_front() {
