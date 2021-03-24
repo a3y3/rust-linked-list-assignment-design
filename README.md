@@ -27,20 +27,15 @@ Before starting this assignment, make sure you have at least a basic understandi
 Additionally, you are even encouraged to (but not required to) read Chapters 1-5 the [mini-book](https://rust-unofficial.github.io/too-many-lists/). 
 
 ## Your work
- - Implement the the methods that are marked by `unimplemented!()`. There are nine linked-list operations we wish to implement and they are:
- ```
- pub fn size(&self) -> usize
- pub fn push_front(&mut self, value: T)
- pub fn push_back(&mut self, value: T) 
- pub fn peek_front(&self) -> Option<Ref<T>>
- pub fn peek_back(&self) -> Option<Ref<T>> 
- pub fn pop_front(&mut self) -> Option<T>
- pub fn pop_back(&mut self) -> Option<T>
- pub fn find(&mut self, value: &T) -> bool
- pub fn remove(&mut self, value: &T) -> Option<T>
- ```
- 
- - The `fn size` returns the number of elements in a linked list. `fn push_front` adds a value to the start of the list, `fn push_back` adds a value to the end of the list, `fn peek_front` returns a reference to the first value of the list. `fn peek_back` returns a reference to the last value in the list. `fn pop_front` removes the front value and returns it. `fn pop_back` removes the last element of the list and returns it. These functions should execute in O(1) time. `Hint:` Please refer to [Reference Counting(Rc)](https://doc.rust-lang.org/book/ch15-04-rc.html) and  [RefCell](https://doc.rust-lang.org/book/ch15-04-rc.html). In the mini-book addressed above things start getting interesting from [here](https://rust-unofficial.github.io/too-many-lists/third.html).
+- Implement the methods that are marked by `unimplemented!()`. Specifically, you will need to implement:
+    1. `fn size` returns the number of elements in a linked list.
+    1. `fn push_front`: adds a value to the start of the list.
+    1. `fn push_back`: adds a value to the end of the list.
+    1. `fn peek_front`: returns a reference to the first value of the list. 
+    1. `fn peek_back`: returns a reference to the last value in the list. 
+    1. `fn pop_front`: removes the front value and returns it. 
+    1. `fn pop_back`: removes the last element of the list and returns it.
+ - Note that for full credit, these functions must execute in O(1) time. `Hint:` You are allowed to refer to [Reference Counting(Rc)](https://doc.rust-lang.org/book/ch15-04-rc.html), [RefCell](https://doc.rust-lang.org/book/ch15-04-rc.html) and the [mini-book](https://rust-unofficial.github.io/too-many-lists/third.html).
  - The `fn find` and `fn remove` can be executed in O(n) time. `Hint:` They have very similar implementations.
  - Edit `q_and_a.md` to answer the questions listed in it.
  - As a challenge, you should try to implement `find` so that instead of returning a `bool`, it returns a mutable reference to the value in the linked list.
@@ -67,4 +62,3 @@ running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
-
