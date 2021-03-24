@@ -27,7 +27,16 @@ Before starting this assignment, make sure you have at least a basic understandi
 Additionally, you are even encouraged to (but not required to) read Chapters 1-5 the [mini-book](https://rust-unofficial.github.io/too-many-lists/). 
 
 ## Your work
- - Implement the the methods that are marked by `unimplemented!()`. You can test each method by running `cargo test method_name`.
+- Implement the methods that are marked by `unimplemented!()`. Specifically, you will need to implement:
+    1. `fn size` returns the number of elements in a linked list.
+    1. `fn push_front`: adds a value to the start of the list.
+    1. `fn push_back`: adds a value to the end of the list.
+    1. `fn peek_front`: returns a reference to the first value of the list. 
+    1. `fn peek_back`: returns a reference to the last value in the list. 
+    1. `fn pop_front`: removes the front value and returns it. 
+    1. `fn pop_back`: removes the last element of the list and returns it.
+ - Note that for full credit, these functions must execute in O(1) time. `Hint:` You are allowed to refer to [Reference Counting(Rc)](https://doc.rust-lang.org/book/ch15-04-rc.html), [RefCell](https://doc.rust-lang.org/book/ch15-04-rc.html) and the [mini-book](https://rust-unofficial.github.io/too-many-lists/third.html).
+ - The `fn find` and `fn remove` can be executed in O(n) time. `Hint:` They have very similar implementations.
  - Edit `q_and_a.md` to answer the questions listed in it.
  - As a challenge, you should try to implement `find` so that instead of returning a `bool`, it returns a mutable reference to the value in the linked list.
 
@@ -38,3 +47,18 @@ The initial idea was to have the students make the `LinkedList` and create a `Ha
 - even if such an implementation of `find` was possible, we agreed that the extra time students spent implementing the hash map itself would likely not use any Rust specific knowledge; as such it would simply a matter of coding until tests passed.
 - Most importantly, we realized that reading the 5 chapters from the book should require a student to spend enough time on an assignment. We really wanted to add more questions to `q_and_a.md`, but we couldn't find time to dig through the book again and come up with more questions.
 - Unfortunately, we do realize that the book can cause students to not have to think for themselves; and simply follow the book's instructions to get a working implementation of a list. However, we belive the book is so well written that even such an exercise would be fruitful; for example, both of us felt that our understanding of `Rc`s and `RefCell`s was much better than before after designing this assignment (which in turn required reading the book). The questions in `q_and_a.md` should ensure that a student has really read the book and not blindly used the code from it;  however both of us agree that it needs more questions to really ensure that.
+
+## Testing implementation
+
+Go the starter directory containing the cargo.toml and run `cargo test -q`, it should run 9 different test cases as shown below:
+
+```
+running 9 tests
+.........
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+```
