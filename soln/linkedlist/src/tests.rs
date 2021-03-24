@@ -81,7 +81,7 @@ mod tests {
                 "{} ", human_readable_err(Error::IncorrectValueAtStart));
         }
     }
-    
+
     //peek_back
     #[test]
     fn test_peek_back() {
@@ -91,7 +91,7 @@ mod tests {
             correct_size,
             linked_list.size(),
             "{}", human_readable_err(Error::SizeMismatch));
-        assert!(linked_list.peek_front().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
+        assert!(linked_list.peek_back().is_none(),"{}", human_readable_err(Error::IncorrectValueAtStart) );
         
         for value in &VALUES {
             let holder = Holder { value: *value };
@@ -104,14 +104,14 @@ mod tests {
         }
         let array_length= correct_size;
         while linked_list.size() != 0 {
-            let first_val = linked_list.peek_back();
+            let last_val = linked_list.peek_back();
             assert_eq!(
                 correct_size,
                 linked_list.size(),
                 "{}", human_readable_err(Error::SizeMismatch)
             );
             assert_eq!(
-                VALUES[array_length-correct_size], first_val.unwrap().value,
+                VALUES[array_length-correct_size], last_val.unwrap().value,
                 "{} ", human_readable_err(Error::ValueOrderMismatch)
             );
             linked_list.pop_back();
