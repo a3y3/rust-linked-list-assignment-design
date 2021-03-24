@@ -55,12 +55,12 @@ The initial idea was to have the students make the `LinkedList` and create a `Ha
 
 ## Testing implementation
 
-Go the starter directory containing the cargo.toml and run `cargo test -q`, it should run 6 different test cases as shown below:
+Go the starter directory containing the cargo.toml and run `cargo test -q`, it should run 9 different test cases as shown below:
 
 ```
-running 6 tests
-......
-test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+running 9 tests
+.........
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 
 running 0 tests
@@ -68,4 +68,3 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
-The test function `fn test_push_front()` tests the implementation of `fn peek_front` internally. The test funtion `fn test_push_back()` tests the implementation of `fn peek_back` internally.
